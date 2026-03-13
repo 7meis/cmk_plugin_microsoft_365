@@ -105,8 +105,10 @@ def check_m365_licenses(item: str, params: Mapping[str, Any], section: Section) 
     # Total available licenses are the sum of enabled and warning.
     # Warning are licenses in a grace period.
     lic_units_total = license.lic_units_enabled + license.lic_units_warning
-
-    lic_units_consumed_pct = round(license.lic_units_consumed / lic_units_total * 100, 2)
+    if license.lic_units_enabled > 0:
+        lic_units_consumed_pct = round(license.lic_units_consumed / lic_units_total * 100, 2)
+    else:
+        lic_units_consumed_pct = 0
 
     # The count of the remaining available licenses will be negative if more licenses are assigned
     # than total available.
